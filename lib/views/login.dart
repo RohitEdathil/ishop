@@ -67,7 +67,7 @@ class _LoginState extends State<Login> {
                     ),
                     FancyTextFieldOne(
                       controller: _passwordController,
-                      placeholder: 'Password ',
+                      placeholder: 'Password',
                       isObscured: true,
                     ),
                     Padding(
