@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "593984983639",
+    "firebase_url": "https://ishop-79f7f.firebaseio.com",
+    "project_id": "ishop-79f7f",
+    "storage_bucket": "ishop-79f7f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593984983639:android:c6e44cbc0a32ca3c7e8912",
+        "android_client_info": {
+          "package_name": "com.rtv.ishop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "593984983639-h1o3r8fafvffrvjac77i1atqu6vgiruu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7a5vx4TvJ522f6VeajpMTHu7KaYF9604"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "593984983639-h1o3r8fafvffrvjac77i1atqu6vgiruu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
