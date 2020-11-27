@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ishop/views/home.dart';
 import 'package:ishop/views/login.dart';
+import 'package:ishop/views/product_add.dart';
+import 'package:ishop/views/product_list.dart';
 import 'package:ishop/views/signup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -24,8 +26,21 @@ class _RootState extends State<Root> {
         '/': (context) => Gate(),
         '/home': (context) => HomePage(),
         '/login': (context) => Login(),
-        '/signup': (context) => SignUp()
+        '/signup': (context) => SignUp(),
+        '/product_list': (context) => ProductList(),
+        '/product_add': (context) => ProductAdd(),
       },
+      theme: ThemeData(
+          backgroundColor: Colors.white,
+          primaryColor: Colors.indigoAccent,
+          accentColor: Colors.indigoAccent,
+          iconTheme: IconThemeData(color: Colors.white),
+          textTheme: TextTheme(
+            button: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            bodyText1: TextStyle(color: Colors.white),
+            bodyText2: TextStyle(color: Colors.white),
+          ),
+          buttonColor: Colors.indigoAccent),
     );
   }
 }

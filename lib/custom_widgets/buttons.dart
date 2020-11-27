@@ -20,7 +20,7 @@ class _FancyButtonOneState extends State<FancyButtonOne> {
         onPressed: widget.onPressed,
         child: widget.child,
         shape: StadiumBorder(),
-        color: Colors.purple,
+        color: Theme.of(context).accentColor,
         elevation: 20,
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future signUp(String email, String password) async {
@@ -41,8 +42,9 @@ Future login(String email, String password) async {
   }
 }
 
-void logOut() async {
+void logOut(context) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   pref.setBool('loggedIn', false);
   pref.setString('uid', '');
+  Navigator.popAndPushNamed(context, '/login');
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ishop/custom_widgets/buttons.dart';
 import 'package:ishop/custom_widgets/textFields.dart';
 import 'package:ishop/data/firebase_authentication.dart';
-import 'package:ishop/data/firebase_firestore.dart';
+import 'package:ishop/data/user_modal.dart';
 import 'package:validators/sanitizers.dart';
 import 'package:validators/validators.dart';
 
@@ -29,19 +29,14 @@ class _SignUpState extends State<SignUp> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                Icons.lock,
-                color: Colors.white,
-              ),
+              Icon(Icons.lock),
               Text(
                 '  Login',
-                style: TextStyle(color: Colors.white),
               ),
             ],
           ),
         ),
-        fillColor: Colors.blue,
-        splashColor: Colors.blue[200],
+        fillColor: Theme.of(context).accentColor,
         onPressed: () {
           Navigator.popAndPushNamed(context, '/login');
         },
@@ -62,7 +57,8 @@ class _SignUpState extends State<SignUp> {
               ),
               Text(
                 'Sign Up',
-                style: TextStyle(fontSize: 40),
+                style: TextStyle(
+                    fontSize: 40, color: Theme.of(context).accentColor),
               ),
               Expanded(
                 child: SizedBox(
@@ -101,7 +97,8 @@ class _SignUpState extends State<SignUp> {
               FancyButtonOne(
                 child: Text(
                   'Proceed',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(
+                      color: Theme.of(context).textTheme.button.color),
                 ),
                 onPressed: handleInput,
               ),

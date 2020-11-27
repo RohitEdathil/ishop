@@ -14,7 +14,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      drawer: Drawer(),
+      drawer: Drawer(
+        child: RaisedButton(
+          child: Text('Logout'),
+          onPressed: () {
+            logOut(context);
+          },
+        ),
+      ),
       body: Column(
         children: [
           Container(
@@ -59,6 +66,9 @@ class _HomePageState extends State<HomePage> {
                         HomeScreenButton(
                           icon: (Icons.inventory),
                           text: 'Inventory',
+                          callback: () {
+                            Navigator.pushNamed(context, '/product_list');
+                          },
                         ),
                         HomeScreenButton(
                           icon: (Icons.shopping_cart),
@@ -83,18 +93,19 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         OutlineButton(
                           onPressed: () {},
-                          borderSide:
-                              BorderSide(color: Colors.indigoAccent, width: 2),
+                          borderSide: BorderSide(
+                              color: Theme.of(context).accentColor, width: 2),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30)),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
                               children: [
-                                Icon(Icons.add, color: Colors.indigoAccent),
+                                Icon(Icons.add,
+                                    color: Theme.of(context).accentColor),
                                 Icon(
                                   Icons.inventory,
-                                  color: Colors.indigoAccent,
+                                  color: Theme.of(context).accentColor,
                                   size: 35,
                                 )
                               ],
@@ -103,18 +114,19 @@ class _HomePageState extends State<HomePage> {
                         ),
                         OutlineButton(
                           onPressed: () {},
-                          borderSide:
-                              BorderSide(color: Colors.indigoAccent, width: 2),
+                          borderSide: BorderSide(
+                              color: Theme.of(context).accentColor, width: 2),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30)),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
                               children: [
-                                Icon(Icons.add, color: Colors.indigoAccent),
+                                Icon(Icons.add,
+                                    color: Theme.of(context).accentColor),
                                 Icon(
                                   Icons.shopping_cart,
-                                  color: Colors.indigoAccent,
+                                  color: Theme.of(context).accentColor,
                                   size: 35,
                                 )
                               ],
@@ -137,7 +149,8 @@ class _HomePageState extends State<HomePage> {
 class HomeScreenButton extends StatelessWidget {
   final IconData icon;
   final String text;
-  HomeScreenButton({this.icon, this.text});
+  final Function callback;
+  HomeScreenButton({this.icon, this.text, this.callback});
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
@@ -155,9 +168,8 @@ class HomeScreenButton extends StatelessWidget {
           )
         ],
       ),
-      color: Colors.indigoAccent[100],
       elevation: 0,
-      onPressed: () {},
+      onPressed: this.callback,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       splashColor: Colors.white,
     );

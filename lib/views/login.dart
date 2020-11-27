@@ -27,17 +27,12 @@ class _LoginState extends State<Login> {
             children: [
               Icon(
                 Icons.person_add,
-                color: Colors.white,
               ),
-              Text(
-                '  SignUp',
-                style: TextStyle(color: Colors.white),
-              ),
+              Text('  SignUp'),
             ],
           ),
         ),
-        fillColor: Colors.blue,
-        splashColor: Colors.blue[200],
+        fillColor: Theme.of(context).accentColor,
         onPressed: () {
           Navigator.pushReplacementNamed(context, '/signup');
         },

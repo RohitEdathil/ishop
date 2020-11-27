@@ -17,9 +17,8 @@ class _FancyTextFieldOneState extends State<FancyTextFieldOne> {
     return TextField(
       controller: widget.controller,
       decoration: InputDecoration(
-          hintText: widget.placeholder,
-          focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.purple, width: 2))),
+        hintText: widget.placeholder,
+      ),
       obscureText: widget.isObscured == null ? false : true,
     );
   }
