@@ -6,19 +6,13 @@ Future<String> createProduct(String name, String description, String measure,
   String response;
   SharedPreferences pref = await SharedPreferences.getInstance();
   String uid = pref.getString('uid');
-  await FirebaseFirestore.instance
-      .collection('products')
-      .add({
-        "owner": uid,
-        "productName": name,
-        "description": description,
-        "measure": measure,
-        "sellingPrice": double.parse(sellingPrice)
-      })
-      .then((value) => {response = 'OK'})
-      .catchError((error) {
-        response = "Network Error";
-        print(error);
-      });
+  await FirebaseFirestore.instance.collection('products').add({
+    "owner": uid,
+    "productName": name,
+    "description": description,
+    "measure": measure,
+    "sellingPrice": double.parse(sellingPrice)
+  }).then((value) => {response = 'OK'});
+
   return response;
 }

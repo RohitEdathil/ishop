@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ishop/data/product_modal.dart';
+import 'package:loading_animations/loading_animations.dart';
 
 class ProductAdd extends StatelessWidget {
   @override
@@ -35,7 +36,9 @@ class ProductForm extends StatefulWidget {
 class _ProductFormState extends State<ProductForm> {
   final _formKey = GlobalKey<FormState>();
   final List textFieldsValue = [];
+  bool loading = false;
   String measureChoice;
+  Image productImage;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -64,15 +67,15 @@ class _ProductFormState extends State<ProductForm> {
                     value: 'g',
                   ),
                   DropdownMenuItem(
-                    child: Text('Number'),
+                    child: Text('Number/No.'),
                     value: 'no',
                   ),
                   DropdownMenuItem(
-                    child: Text('Litre'),
+                    child: Text('Volume/Litre'),
                     value: 'L',
                   ),
                   DropdownMenuItem(
-                    child: Text('Metre'),
+                    child: Text('Length/Metre'),
                     value: 'm',
                   ),
                 ],
@@ -99,33 +102,56 @@ class _ProductFormState extends State<ProductForm> {
                 dataList: textFieldsValue,
                 type: TextInputType.number,
               ),
-              Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: OutlineButton(
-                  onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      createProduct(textFieldsValue[0], textFieldsValue[1],
-                              measureChoice, textFieldsValue[2])
-                          .then((value) {
-                        if (value == 'OK') {
-                          Navigator.pop(context);
-                        } else {
-                          Scaffold.of(context).showSnackBar(SnackBar(
-                            content: Text(value),
-                            backgroundColor: Colors.red,
-                          ));
-                        }
-                      });
-                    }
-                    textFieldsValue.clear();
-                  },
-                  child: Text(
-                    'Create',
-                    style: TextStyle(color: Theme.of(context).backgroundColor),
+              SizedBox(
+                height: 20,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, '/image_chooser');
+                },
+                child: Container(
+                  height: 200,
+                  width: 200,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color.fromRGBO(100, 100, 100, 0.5),
                   ),
-                  borderSide:
-                      BorderSide(color: Theme.of(context).backgroundColor),
+                  child: Icon(Icons.add_a_photo),
                 ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              OutlineButton(
+                disabledBorderColor: Theme.of(context).backgroundColor,
+                onPressed: loading
+                    ? null
+                    : () {
+                        if (_formKey.currentState.validate()) {
+                          createProduct(textFieldsValue[0], textFieldsValue[1],
+                                  measureChoice, textFieldsValue[2])
+                              .then((value) {
+                            if (value == 'OK') {
+                              Navigator.pop(context);
+                            }
+                          });
+                          setState(() {
+                            loading = true;
+                          });
+                        }
+                        textFieldsValue.clear();
+                      },
+                child: loading
+                    ? LoadingBumpingLine.circle(
+                        backgroundColor: Theme.of(context).backgroundColor,
+                      )
+                    : Text(
+                        'Create',
+                        style:
+                            TextStyle(color: Theme.of(context).backgroundColor),
+                      ),
+                borderSide:
+                    BorderSide(color: Theme.of(context).backgroundColor),
               )
             ],
           ),
