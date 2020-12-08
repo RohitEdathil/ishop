@@ -40,45 +40,47 @@ class _LoginState extends State<Login> {
         elevation: 20,
       ),
       body: Center(
-        child: Container(
-          padding: EdgeInsets.fromLTRB(20, 40, 20, 50),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Hero(
-                tag: 'logo',
-                child: Image(
-                  image: AssetImage('images/logo.png'),
-                  height: 200,
+        child: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.fromLTRB(20, 40, 20, 50),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Hero(
+                  tag: 'logo',
+                  child: Image(
+                    image: AssetImage('images/logo.png'),
+                    height: 200,
+                  ),
                 ),
-              ),
-              Container(
-                width: 300,
-                child: Column(
-                  children: [
-                    FancyTextFieldOne(
-                      controller: _usernameController,
-                      placeholder: 'Email Id',
-                    ),
-                    FancyTextFieldOne(
-                      controller: _passwordController,
-                      placeholder: 'Password',
-                      isObscured: true,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(40.0),
-                      child: FancyButtonOne(
-                        child: Text(
-                          'Login',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        onPressed: handleInput,
+                Container(
+                  width: 300,
+                  child: Column(
+                    children: [
+                      FancyTextFieldOne(
+                        controller: _usernameController,
+                        placeholder: 'Email Id',
                       ),
-                    )
-                  ],
+                      FancyTextFieldOne(
+                        controller: _passwordController,
+                        placeholder: 'Password',
+                        isObscured: true,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(40.0),
+                        child: FancyButtonOne(
+                          child: Text(
+                            'Login',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: handleInput,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

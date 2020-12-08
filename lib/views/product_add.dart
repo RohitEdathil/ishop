@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ishop/custom_widgets/image_picker.dart';
 import 'package:ishop/data/product_modal.dart';
 import 'package:loading_animations/loading_animations.dart';
 
@@ -106,8 +107,9 @@ class _ProductFormState extends State<ProductForm> {
                 height: 20,
               ),
               InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, '/image_chooser');
+                onTap: () async {
+                  productImage = await Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ImagePicker()));
                 },
                 child: Container(
                   height: 200,

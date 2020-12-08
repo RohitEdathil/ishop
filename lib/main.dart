@@ -6,6 +6,7 @@ import 'package:ishop/views/product_list.dart';
 import 'package:ishop/views/signup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(Root());
@@ -20,6 +21,10 @@ class Root extends StatefulWidget {
 class _RootState extends State<Root> {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       initialRoute: '/',
       routes: {
