@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:ishop/custom_widgets/image_picker.dart';
 import 'package:ishop/data/product_modal.dart';
 import 'package:loading_animations/loading_animations.dart';
+
+String productPic;
 
 class ProductAdd extends StatelessWidget {
   @override
@@ -39,7 +43,7 @@ class _ProductFormState extends State<ProductForm> {
   final List textFieldsValue = [];
   bool loading = false;
   String measureChoice;
-  Image productImage;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -106,21 +110,7 @@ class _ProductFormState extends State<ProductForm> {
               SizedBox(
                 height: 20,
               ),
-              InkWell(
-                onTap: () async {
-                  productImage = await Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ImagePicker()));
-                },
-                child: Container(
-                  height: 200,
-                  width: 200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color.fromRGBO(100, 100, 100, 0.5),
-                  ),
-                  child: Icon(Icons.add_a_photo),
-                ),
-              ),
+              ImageInput(),
               SizedBox(
                 height: 20,
               ),
@@ -131,9 +121,10 @@ class _ProductFormState extends State<ProductForm> {
                     : () {
                         if (_formKey.currentState.validate()) {
                           createProduct(textFieldsValue[0], textFieldsValue[1],
-                                  measureChoice, textFieldsValue[2])
+                                  measureChoice, textFieldsValue[2], productPic)
                               .then((value) {
                             if (value == 'OK') {
+                              productPic = null;
                               Navigator.pop(context);
                             }
                           });
@@ -198,6 +189,63 @@ class _ProductFormFieldState extends State<ProductFormField> {
               ),
             ),
             errorStyle: TextStyle(color: Theme.of(context).backgroundColor)),
+      ),
+    );
+  }
+}
+
+class ImageInput extends StatefulWidget {
+  @override
+  _ImageInputState createState() => _ImageInputState();
+}
+
+class _ImageInputState extends State<ImageInput> {
+  String productImagePath;
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () async {
+        final result = await Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ImagePicker()));
+        setState(() {
+          result == null ? null : productImagePath = result;
+          productPic = productImagePath;
+        });
+      },
+      child: Container(
+        height: 200,
+        width: 200,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Color.fromRGBO(100, 100, 100, 0.5),
+        ),
+        child: productImagePath == null
+            ? Icon(Icons.add_a_photo)
+            : ClipRRect(
+                child: Stack(children: [
+                  Image.file(File(productImagePath)),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: CircleAvatar(
+                      backgroundColor: Color.fromARGB(150, 100, 100, 100),
+                      maxRadius: 15,
+                      child: IconButton(
+                        color: Colors.white,
+                        iconSize: 15,
+                        splashColor: Colors.red,
+                        icon: Icon(Icons.close),
+                        onPressed: () {
+                          setState(() {
+                            productImagePath = null;
+                            productPic = null;
+                          });
+                        },
+                      ),
+                    ),
+                  )
+                ]),
+                borderRadius: BorderRadius.circular(10),
+              ),
       ),
     );
   }

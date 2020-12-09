@@ -1,7 +1,10 @@
+import 'dart:io';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:image_picker/image_picker.dart' as galleryPicker;
 
 class ImagePicker extends StatefulWidget {
   @override
@@ -12,8 +15,8 @@ class _ImagePickerState extends State<ImagePicker> {
   CameraController _controller;
   Future<void> _initializeControllerFuture;
   bool isCameraReady = false;
-  bool showCapturedPhoto = false;
-  var ImagePath;
+
+  var imagePath;
 
   Future<void> _initCams() async {
     final cameras = await availableCameras();
@@ -37,22 +40,45 @@ class _ImagePickerState extends State<ImagePicker> {
     }
   }
 
-  void onCaptureButtonPressed() async {
+  void takePhoto(context) async {
     //on camera button press
     try {
       final path = join(
         (await getTemporaryDirectory()).path, //Temporary path
         'productPic${DateTime.now()}.png',
       );
-      ImagePath = path;
+      imagePath = path;
       await _controller.takePicture(path); //take photo
-
-      setState(() {
-        showCapturedPhoto = true;
-      });
+      cropAndPass(imagePath, context);
     } catch (e) {
       print(e);
     }
+  }
+
+  void cropAndPass(String imagePath, context) async {
+    File croppedImage = await ImageCropper.cropImage(
+        sourcePath: imagePath,
+        maxHeight: 200,
+        maxWidth: 200,
+        androidUiSettings: AndroidUiSettings(
+          toolbarTitle: '',
+          hideBottomControls: true,
+          toolbarColor: Colors.black,
+          toolbarWidgetColor: Colors.white,
+        ),
+        aspectRatio: CropAspectRatio(ratioX: 200, ratioY: 200));
+
+    if (croppedImage != null) {
+      Navigator.pop(context, croppedImage.path);
+    }
+  }
+
+  void chooseFrmGallery(context) async {
+    final picker = galleryPicker.ImagePicker();
+
+    galleryPicker.PickedFile result = await picker.getImage(
+        source: galleryPicker.ImageSource.gallery, imageQuality: 100);
+    cropAndPass(result.path, context);
   }
 
   @override
@@ -87,12 +113,40 @@ class _ImagePickerState extends State<ImagePicker> {
                 Expanded(
                   flex: 1,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      CircleAvatar(
-                        child: Icon(
-                          Icons.photo_album,
-                        ),
-                      )
+                      FlatButton.icon(
+                          onPressed: () {
+                            chooseFrmGallery(context);
+                          },
+                          textColor: Colors.white,
+                          icon: Icon(
+                            Icons.photo_library,
+                            color: Colors.white,
+                          ),
+                          label: Text('Gallery')),
+                      GestureDetector(
+                          onTap: () {
+                            takePhoto(context);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                            height: 60,
+                            width: 60,
+                          )),
+                      FlatButton.icon(
+                          onPressed: () {
+                            Navigator.pop(context, null);
+                          },
+                          textColor: Colors.white,
+                          icon: Icon(
+                            Icons.close,
+                            color: Colors.white,
+                          ),
+                          label: Text('Cancel')),
                     ],
                   ),
                 )
