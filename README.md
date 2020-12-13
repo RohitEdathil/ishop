@@ -9,3 +9,4 @@ An Inventory management app for shopkeepers
 - Keep track of daily sales
 - Product catalog management
 
+# Stil under development!!!!!
