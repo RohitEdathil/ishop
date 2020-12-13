@@ -7,17 +7,18 @@ Future<String> createProduct(String name, String description, String measure,
   String response;
   SharedPreferences pref = await SharedPreferences.getInstance();
   String uid = pref.getString('uid');
-  String imageName = "$uid${DateTime.now().toString()}.png";
+  String imageName = "$uid${DateTime.now().toString()}";
   await FirebaseFirestore.instance.collection('products').add({
     "owner": uid,
     "productName": name,
     "description": description,
     "measure": measure,
     "sellingPrice": double.parse(sellingPrice),
+    "createdOn": DateTime.now(),
     "imageName": productImagePath != null ? imageName : ""
   }).then((value) async {
     bool uploaded = productImagePath != null
-        ? await uploadFile(productImagePath, "productImages/$imageName.png")
+        ? await uploadFile(productImagePath, "productImages/$imageName")
         : true;
     if (uploaded) {
       response = "OK";
@@ -25,4 +26,14 @@ Future<String> createProduct(String name, String description, String measure,
   });
 
   return response;
+}
+
+Future<QuerySnapshot> getProductList() async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  String uid = pref.getString('uid');
+  CollectionReference products =
+      FirebaseFirestore.instance.collection('products');
+  final snapshot = await products.where('owner', isEqualTo: uid).get();
+
+  return snapshot;
 }

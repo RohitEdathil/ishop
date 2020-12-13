@@ -66,9 +66,6 @@ class _HomePageState extends State<HomePage> {
                         HomeScreenButton(
                           icon: (Icons.inventory),
                           text: 'Inventory',
-                          callback: () {
-                            Navigator.pushNamed(context, '/product_list');
-                          },
                         ),
                         HomeScreenButton(
                           icon: (Icons.shopping_cart),
@@ -77,6 +74,9 @@ class _HomePageState extends State<HomePage> {
                         HomeScreenButton(
                           icon: (Icons.lightbulb),
                           text: 'Products',
+                          callback: () {
+                            Navigator.pushNamed(context, '/product_list');
+                          },
                         ),
                         HomeScreenButton(
                           icon: (Icons.exposure_minus_1),

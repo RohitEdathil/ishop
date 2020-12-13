@@ -58,8 +58,8 @@ class _ImagePickerState extends State<ImagePicker> {
   void cropAndPass(String imagePath, context) async {
     File croppedImage = await ImageCropper.cropImage(
         sourcePath: imagePath,
-        maxHeight: 200,
-        maxWidth: 200,
+        maxHeight: 300,
+        maxWidth: 300,
         androidUiSettings: AndroidUiSettings(
           toolbarTitle: '',
           hideBottomControls: true,

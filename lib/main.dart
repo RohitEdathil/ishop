@@ -32,7 +32,7 @@ class _RootState extends State<Root> {
         '/home': (context) => HomePage(),
         '/login': (context) => Login(),
         '/signup': (context) => SignUp(),
-        '/product_list': (context) => ProductList(),
+        '/product_list': (context) => ProductView(),
         '/product_add': (context) => ProductAdd(),
       },
       theme: ThemeData(

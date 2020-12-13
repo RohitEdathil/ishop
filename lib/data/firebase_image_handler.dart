@@ -16,3 +16,9 @@ Future<bool> uploadFile(String filePath, String serverPath) async {
     return false;
   }
 }
+
+Future<String> getPhoto(name, category) async {
+  return await firebase_storage.FirebaseStorage.instance
+      .ref('$category/$name')
+      .getDownloadURL();
+}
