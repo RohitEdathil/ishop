@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ishop/data/firebase_image_handler.dart';
@@ -36,6 +35,7 @@ class _ProductViewState extends State<ProductView> {
         physics: BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
+            floating: true,
             title: Text(
               'Products',
               style: TextStyle(color: Theme.of(context).accentColor),
@@ -111,11 +111,15 @@ class _ProductListState extends State<ProductList> {
                 maxCrossAxisExtent: 300),
             delegate: SliverChildBuilderDelegate((context, index) {
               Map product = dataList[index].data();
-              return ProductCard(
-                name: product['productName'],
-                description: product['description'],
-                imageName: product['imageName'],
-                sellingPrice: product['sellingPrice'],
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ProductCard(
+                  name: product['productName'],
+                  description: product['description'],
+                  imageName: product['imageName'],
+                  sellingPrice: product['sellingPrice'],
+                  id: dataList[index].id,
+                ),
               );
             }, childCount: dataList.length),
           );
@@ -137,65 +141,70 @@ class ProductCard extends StatelessWidget {
   final String description;
   final String imageName;
   final double sellingPrice;
-  ProductCard({this.name, this.description, this.imageName, this.sellingPrice});
+  final String id;
+  ProductCard(
+      {this.name,
+      this.description,
+      this.imageName,
+      this.sellingPrice,
+      this.id});
 
   @override
   Widget build(BuildContext context) {
-    print(imageName);
     return Card(
       elevation: 20,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       clipBehavior: Clip.antiAliasWithSaveLayer,
-      child: Stack(
-        children: [
-          imageName == ""
-              ? Container(
-                  color: Theme.of(context).accentColor,
-                  child: Center(
-                    child: Icon(
-                      Icons.lightbulb,
-                      color: Theme.of(context).backgroundColor,
-                      size: 40,
-                    ),
-                  ),
-                )
-              : FutureBuilder(
-                  future: getPhoto('$imageName', 'productImages'),
-                  builder: (context, snapshot) {
-                    return snapshot.connectionState == ConnectionState.done
-                        ? Image.network(snapshot.data)
-                        : LoadingFlipping.square();
-                  }),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: ClipRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                child: Container(
-                  height: 50,
-                  width: 300,
-                  color: Colors.white30,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        name,
-                        style: TextStyle(fontSize: 20),
-                        overflow: TextOverflow.ellipsis,
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, '/product_view', arguments: {'id': id});
+        },
+        child: Stack(
+          children: [
+            imageName == ""
+                ? Container(
+                    color: Theme.of(context).accentColor,
+                    child: Center(
+                      child: Icon(
+                        Icons.lightbulb,
+                        color: Theme.of(context).backgroundColor,
+                        size: 40,
                       ),
-                      Text('₹$sellingPrice')
-                    ],
+                    ),
+                  )
+                : FutureBuilder(
+                    future: getPhoto('$imageName', 'productImages'),
+                    builder: (context, snapshot) {
+                      return snapshot.connectionState == ConnectionState.done
+                          ? Image.network(snapshot.data)
+                          : LoadingFlipping.square();
+                    }),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: ClipRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: Container(
+                    height: 50,
+                    width: 300,
+                    color: Colors.white30,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          name,
+                          style: TextStyle(fontSize: 20),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text('₹$sellingPrice')
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          InkWell(
-            onTap: () {
-              print(name);
-            },
-          )
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -241,11 +250,6 @@ class _SortBarState extends State<SortBar> {
             )
           ],
         ),
-        Divider(
-          color: Theme.of(context).accentColor,
-          thickness: 2,
-          height: 10,
-        )
       ]),
     );
   }

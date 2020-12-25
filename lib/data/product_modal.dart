@@ -37,3 +37,9 @@ Future<QuerySnapshot> getProductList() async {
 
   return snapshot;
 }
+
+Future<DocumentSnapshot> getProductById(id) async {
+  final result =
+      await FirebaseFirestore.instance.collection('products').doc(id).get();
+  return result;
+}

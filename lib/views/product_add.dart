@@ -93,6 +93,13 @@ class _ProductFormState extends State<ProductForm> {
                 decoration: InputDecoration(
                     hintStyle:
                         TextStyle(color: Theme.of(context).backgroundColor),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).backgroundColor,
+                        width: 2,
+                      ),
+                    ),
                     hintText: 'Measured by',
                     focusedBorder: UnderlineInputBorder(
                       borderRadius: BorderRadius.circular(50),
@@ -105,7 +112,7 @@ class _ProductFormState extends State<ProductForm> {
               ProductFormField(
                 placeholder: 'Selling Price Per Unit',
                 dataList: textFieldsValue,
-                type: TextInputType.number,
+                type: TextInputType.numberWithOptions(decimal: true),
               ),
               SizedBox(
                 height: 20,
@@ -169,6 +176,7 @@ class _ProductFormFieldState extends State<ProductFormField> {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
+        maxLength: 50,
         validator: (input) {
           if (input.isEmpty) {
             return 'Field must not be empty';
@@ -180,12 +188,19 @@ class _ProductFormFieldState extends State<ProductFormField> {
         keyboardType: widget.type == null ? TextInputType.text : widget.type,
         decoration: InputDecoration(
             hintText: widget.placeholder,
-            hintStyle: TextStyle(color: Theme.of(context).backgroundColor),
-            focusedBorder: UnderlineInputBorder(
+            border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(50),
               borderSide: BorderSide(
                 color: Theme.of(context).backgroundColor,
-                width: 5,
+                width: 1,
+              ),
+            ),
+            hintStyle: TextStyle(color: Theme.of(context).backgroundColor),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(50),
+              borderSide: BorderSide(
+                color: Theme.of(context).backgroundColor,
+                width: 2,
               ),
             ),
             errorStyle: TextStyle(color: Theme.of(context).backgroundColor)),
@@ -208,6 +223,7 @@ class _ImageInputState extends State<ImageInput> {
         final result = await Navigator.push(
             context, MaterialPageRoute(builder: (context) => ImagePicker()));
         setState(() {
+          // ignore: unnecessary_statements
           result == null ? null : productImagePath = result;
           productPic = productImagePath;
         });

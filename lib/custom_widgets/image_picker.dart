@@ -36,6 +36,7 @@ class _ImagePickerState extends State<ImagePicker> {
     if (state == AppLifecycleState.resumed) {
       _controller != null
           ? _initializeControllerFuture = _controller.initialize()
+          // ignore: unnecessary_statements
           : null;
     }
   }

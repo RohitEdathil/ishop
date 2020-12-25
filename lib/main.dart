@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ishop/views/home.dart';
 import 'package:ishop/views/login.dart';
+import 'package:ishop/views/product%20view.dart';
 import 'package:ishop/views/product_add.dart';
 import 'package:ishop/views/product_list.dart';
 import 'package:ishop/views/signup.dart';
@@ -34,6 +35,7 @@ class _RootState extends State<Root> {
         '/signup': (context) => SignUp(),
         '/product_list': (context) => ProductView(),
         '/product_add': (context) => ProductAdd(),
+        '/product_view': (context) => ProductPage()
       },
       theme: ThemeData(
           backgroundColor: Colors.white,
